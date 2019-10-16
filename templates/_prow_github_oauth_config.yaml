@@ -1,0 +1,6 @@
+client_id: ${client_id}
+client_secret: ${client_secret}
+redirect_url: ${redirect_url}
+final_redirect_url: ${final_redirect_url}
+scopes:
+  - repo  
