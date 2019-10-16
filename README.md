@@ -6,14 +6,14 @@ This is a terraform module for creating a prow k8s cluster running in GKE.
 
 ## Features
 
-- Runs in GKE, with private nodes 
-- Managed Control Plan and Nodes by GKE
-- Automatic control plan upgrades
+- Runs in GKE
+- Runs on private nodes 
+- Managed Control Plane and Nodes by GKE
+- Automatic control plane upgrades
 - Automatic node updades
 - Cluster scales up and down as needed
 - Injected all needed secrets to install Prow
 - Setup GSuite integration with RBAC
-- 
 
 ## Usage
 
