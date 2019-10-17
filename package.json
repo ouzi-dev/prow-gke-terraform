@@ -1,5 +1,5 @@
 {
-  "name": "avro-kedavro",
+  "name": "prow-gke-terraform",
   "description": "__A Terraform module to create a k8s cluster for Prow__",
   "repository": {
     "type": "git",
