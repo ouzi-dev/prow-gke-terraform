@@ -30,10 +30,10 @@ validate:
 
 .PHONY: semantic-release
 semantic-release:
-	npm install
+	npm ci
 	npx semantic-release
 
 .PHONY: semantic-release-dry-run
 semantic-release-dry-run:
-	npm install
+	npm ci
 	npx semantic-release -d
