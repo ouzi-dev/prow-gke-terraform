@@ -13,6 +13,11 @@ output "gke_name" {
   value = local.gke_name
 }
 
+output "cluster_ca_certificate" {
+  value = modules.gke-cluster.cluster_ca_certificate
+  sensitive = true
+}
+
 ## Prow related outputs
 output "prow_bucket_svc_account_key" {
   value     = google_service_account_key.prow_bucket_editor_key.private_key
