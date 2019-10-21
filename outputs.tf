@@ -15,6 +15,7 @@ output "gke_name" {
 
 output "cluster_ca_certificate" {
   value = modules.gke-cluster.cluster_ca_certificate
+  sensitive = true
 }
 
 ## Prow related outputs
