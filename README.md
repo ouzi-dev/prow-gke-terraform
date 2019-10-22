@@ -24,18 +24,12 @@ module "prow-cluster" {
   gcloud_region              = var.gcloud_region
   gcloud_project             = var.gcloud_project
   gke_kubernetes_version     = var.gke_kubernetes_version
-  dockerconfig_credstash_key = var.dockerconfig_credstash_key
+  gke_authenticator_groups_security_group = var.gke_authenticator_groups_security_group
 
   base_domain = var.base_domain
   github_org  = var.github_org
 
-  slack_bot_token_credstash_key = var.slack_bot_token_credstash_key
   prow_artefact_bucket_location = var.prow_artefact_bucket_location
-
-  gke_authenticator_groups_security_group = var.gke_authenticator_groups_security_group
 }
 ```
 
-## Secrets
-
-We leverage [credstash](https://github.com/fugue/credstash) for managing secrets and therefore this module will require you to specify credstash keys
