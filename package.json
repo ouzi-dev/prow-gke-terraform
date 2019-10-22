@@ -23,20 +23,16 @@
         {
           "releaseRules": [
             {
-              "type": "fix",
-              "release": "patch"
-            },
-            {
-              "type": "refactor",
-              "release": "patch"
-            },
-            {
               "type": "feat",
               "release": "minor"
             },
             {
               "type": "major",
               "release": "major"
+            },
+            {
+              "type": "/.*/",
+              "release": "patch"
             }
           ]
         }
