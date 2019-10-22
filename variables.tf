@@ -124,45 +124,7 @@ variable "prow_artefact_bucket_location" {
   type = string
 }
 
-variable "github_bot_token_credstash_key" {
-  type    = string
-  default = "github_bot_personal_access_token_prow"
-}
-
-variable "github_bot_ssh_key_credstash_key" {
-  type    = string
-  default = "github_bot_ssh_private_key"
-}
-
 variable "github_org" {
-  type = string
-}
-
-variable "prow_github_oauth_client_id_credstash_key" {
-  type    = string
-  default = "prow-github-oauth-client-id"
-}
-
-variable "prow_github_oauth_client_secret_credstash_key" {
-  type    = string
-  default = "prow-github-oauth-client-secret"
-}
-
-variable "prow_cluster_github_oauth_client_id_credstash_key" {
-  type    = string
-  default = "prow-cluster-github-oauth-client-id"
-}
-
-variable "prow_cluster_github_oauth_client_secret_credstash_key" {
-  type    = string
-  default = "prow-cluster-github-oauth-client-secret"
-}
-
-variable "slack_bot_token_credstash_key" {
-  type = string
-}
-
-variable "dockerconfig_credstash_key" {
   type = string
 }
 
