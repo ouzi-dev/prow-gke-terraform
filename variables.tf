@@ -131,3 +131,21 @@ variable "github_org" {
 variable "base_domain" {
   type = string
 }
+
+variable "google_apis"{
+  default = [
+    "iam.googleapis.com", 
+    "cloudresourcemanager.googleapis.com", 
+    "container.googleapis.com", 
+    "compute.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "storage-api.googleapis.com",
+    "storage-component.googleapis.com",
+    "cloudapis.googleapis.com",
+    "containerregistry.googleapis.com",
+    "logging.googleapis.com",
+    "monitoring.googleapis.com",
+    "servicemanagement.googleapis.com",
+    "serviceusage.googleapis.com"
+  ]
+}
