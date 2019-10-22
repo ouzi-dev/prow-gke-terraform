@@ -32,4 +32,3 @@ module "prow-cluster" {
   prow_artefact_bucket_location = var.prow_artefact_bucket_location
 }
 ```
-
