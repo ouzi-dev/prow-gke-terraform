@@ -1,60 +1,9 @@
-
-
 ## Data
 
 data "google_compute_zones" "available" {}
 
-data "credstash_secret" "github_bot_token" {
-  name = var.github_bot_token_credstash_key
-}
-
-data "credstash_secret" "github_bot_ssh_key" {
-  name = var.github_bot_ssh_key_credstash_key
-}
-
-data "credstash_secret" "prow_github_oauth_client_secret" {
-  name = var.prow_github_oauth_client_secret_credstash_key
-}
-
-data "credstash_secret" "prow_github_oauth_client_id" {
-  name = var.prow_github_oauth_client_id_credstash_key
-}
-
-data "credstash_secret" "prow_cluster_github_oauth_client_secret" {
-  name = var.prow_cluster_github_oauth_client_secret_credstash_key
-}
-
-data "credstash_secret" "prow_cluster_github_oauth_client_id" {
-  name = var.prow_cluster_github_oauth_client_id_credstash_key
-}
-
-data "credstash_secret" "slack_bot_token" {
-  name = var.slack_bot_token_credstash_key
-}
-
-data "credstash_secret" "dockerconfig" {
-  name = var.dockerconfig_credstash_key
-}
-data "google_client_config" "current" {
-}
-
 ## ID of this infrastructure - we use this for uniquness and tracking resources
 resource "random_string" "id" {
-  length  = 8
-  special = false
-}
-
-resource "random_string" "prow_github_oauth_cookie_secret" {
-  length  = 8
-  special = false
-}
-
-resource "random_string" "prow_cluster_github_oauth_cookie_secret" {
-  length  = 8
-  special = false
-}
-
-resource "random_string" "prow_cookie_secret" {
   length  = 8
   special = false
 }
@@ -126,6 +75,7 @@ resource "google_service_account" "prow_bucket_editor" {
   display_name = "Service Account for the Prow artefact bucket"
 }
 
+### Set IAM for Prow to write/read the artefacts in the bucket
 resource "google_storage_bucket_iam_member" "prow_bucket_editor" {
   bucket = google_storage_bucket.prow_bucket.name
   role   = "roles/storage.objectAdmin"
@@ -137,12 +87,13 @@ resource "google_service_account_key" "prow_bucket_editor_key" {
   service_account_id = google_service_account.prow_bucket_editor.name
 }
 
-### Service Account for CertManager to create DNS entries
+### Service Account for  Cert-Manager to create DNS entries
 resource "google_service_account" "certmanager_dns_editor" {
   account_id   = "certmanager"
   display_name = "Service Account for CertManager to manage dns entries"
 }
 
+### Set IAM for  Cert-Manager to admin clouddns
 resource "google_project_iam_member" "certmanager_dns_editor_role" {
   role   = "roles/dns.admin"
   member = "serviceAccount:${google_service_account.certmanager_dns_editor.email}"
@@ -153,24 +104,19 @@ resource "google_service_account_key" "certmanager_dns_editor_key" {
   service_account_id = google_service_account.certmanager_dns_editor.name
 }
 
-### Token for Prow Webhook secret
-resource "random_string" "hmac_token" {
-  length  = 30
-  special = false
-}
-
 ### Service Account for Terraform
 resource "google_service_account" "prow_terraform" {
   account_id   = "prow-tf"
   display_name = "Service account for Prow to execute Terraform Google Provider Resources"
 }
 
+### Set IAM for Prow Terraform to edit the whole project
 resource "google_project_iam_member" "prow_terraform" {
   role   = "roles/editor"
   member = "serviceAccount:${google_service_account.prow_terraform.email}"
 }
 
-### Key for the Cert-Manager Service Account
+### Key for the Prow TF Service Account
 resource "google_service_account_key" "prow_terraform" {
   service_account_id = google_service_account.prow_terraform.name
 }
@@ -181,10 +127,12 @@ resource "aws_iam_user" "prow_terraform" {
   tags = local.tags
 }
 
+### AWS Service Account access key
 resource "aws_iam_access_key" "prow_terraform" {
   user = "${aws_iam_user.prow_terraform.name}"
 }
 
+### AWS Service Account IAM policy
 resource "aws_iam_user_policy" "prow_terraform" {
   name = "tf_aws_service_account_${local.infra_id}"
   user = "${aws_iam_user.prow_terraform.name}"
