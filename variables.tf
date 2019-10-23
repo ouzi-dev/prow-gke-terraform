@@ -133,6 +133,7 @@ variable "base_domain" {
 }
 
 variable "google_apis"{
+  type = set(string)
   default = [
     "iam.googleapis.com", 
     "cloudresourcemanager.googleapis.com", 
@@ -146,6 +147,7 @@ variable "google_apis"{
     "logging.googleapis.com",
     "monitoring.googleapis.com",
     "servicemanagement.googleapis.com",
-    "serviceusage.googleapis.com"
+    "serviceusage.googleapis.com",
+    "dns.googleapis.com"
   ]
 }

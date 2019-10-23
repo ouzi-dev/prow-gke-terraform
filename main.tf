@@ -20,11 +20,11 @@ locals {
 }
 
 resource "google_project_service" "project" {
-  count = length(var.google_apis)
-  project = var.gcloud_project
-  service = var.google_apis[count.index]
+  for_each = var.google_apis
 
-  disable_dependent_services = true
+  project = var.gcloud_project
+  service = each.value
+  disable_dependent_services = false
 }
 
 ## Modules
