@@ -19,6 +19,14 @@ locals {
   }
 }
 
+resource "google_project_service" "project" {
+  for_each = var.google_apis
+
+  project = var.gcloud_project
+  service = each.value
+  disable_dependent_services = false
+}
+
 ## Modules
 module "gke-cluster" {
   source  = "git@github.com:ouzi-dev/gke-terraform.git?ref=v0.3"

@@ -26,3 +26,6 @@ semantic-release:
 semantic-release-dry-run:
 	npm ci
 	npx semantic-release -d
+
+package-lock.json: package.json
+	npm install
