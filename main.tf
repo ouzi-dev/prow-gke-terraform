@@ -12,7 +12,6 @@ resource "random_string" "id" {
 locals {
   infra_id      = random_string.id.result
   prow_base_url = "prow.${var.base_domain}"
-  gke_name      = "prow"
   tags = {
     SYSTEM = var.system
     UUID   = random_string.id.result
@@ -33,7 +32,7 @@ module "gke-cluster" {
   region  = var.gcloud_region
   project = var.gcloud_project
 
-  cluster_name = local.gke_name
+  cluster_name = var.gke_name
   zones = [
     data.google_compute_zones.available.names[0],
     data.google_compute_zones.available.names[1],

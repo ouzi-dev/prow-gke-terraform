@@ -5,6 +5,9 @@ variable "gcloud_region" {
 variable "gcloud_project" {
   description = "Name of the GKE project"
 }
+variable "gke_name" {
+  default = "prow"
+}
 
 variable "system" {
   description = "The system name"

@@ -10,7 +10,7 @@ output "gcloud_project" {
 # GKE outputs
 
 output "gke_name" {
-  value = local.gke_name
+  value = var.gke_name
 }
 
 output "cluster_ca_certificate" {
