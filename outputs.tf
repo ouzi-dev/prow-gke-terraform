@@ -1,17 +1,4 @@
-# GCloud outputs
-output "gcloud_region" {
-  value = var.gcloud_region
-}
-
-output "gcloud_project" {
-  value = var.gcloud_project
-}
-
 # GKE outputs
-
-output "gke_name" {
-  value = var.gke_name
-}
 
 output "cluster_ca_certificate" {
   value = module.gke-cluster.cluster_ca_certificate
@@ -41,14 +28,6 @@ output "prow_terraform_aws_svc_account_secret_access_key" {
 
 output "prow_artefacts_bucket_name" {
   value = google_storage_bucket.prow_bucket.name
-}
-
-output "prow_base_url" {
-  value = local.prow_base_url
-}
-
-output "prow_github_org" {
-  value = var.github_org
 }
 
 ## Cert-Manager outputs
