@@ -127,10 +127,6 @@ variable "prow_artefact_bucket_location" {
   type = string
 }
 
-variable "github_org" {
-  type = string
-}
-
 variable "base_domain" {
   type = string
 }
