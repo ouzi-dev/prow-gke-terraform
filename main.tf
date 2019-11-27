@@ -28,7 +28,7 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.0"
+  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.1"
   #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
@@ -65,7 +65,7 @@ module "gke-cluster" {
 }
 
 module "image-build-workers" {
-  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.0"
+  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.1"
   #source  = "../gke-terraform/modules/gke-workers"
   region  = var.gcloud_region
 
