@@ -28,7 +28,8 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.3"
+  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.0"
+  #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
 
@@ -61,6 +62,34 @@ module "gke-cluster" {
   enable_calico                       = var.gke_enable_calico
   authenticator_groups_security_group = var.gke_authenticator_groups_security_group
   init_nodes                          = var.gke_init_nodes
+}
+
+module "image-build-workers" {
+  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.0"
+  #source  = "../gke-terraform/modules/gke-workers"
+  region  = var.gcloud_region
+
+  gke_cluster_name       = var.gke_name
+  group_name             = "image-builder"
+  zones = [
+    data.google_compute_zones.available.names[0],
+    data.google_compute_zones.available.names[1],
+    data.google_compute_zones.available.names[2]
+  ]
+  gke_node_scopes        = var.gke_node_scopes
+  machine_type           = var.imagebuilder_machine_type
+  machine_disk_size      = var.imagebuilder_machine_disk_type
+  machine_disk_type      = var.imagebuilder_machine_disk_size
+  machine_is_preemptible = var.imagebuilder_machine_is_preemptible
+  min_nodes              = var.imagebuilder_min_nodes
+  max_nodes              = var.imagebuilder_max_nodes
+  init_nodes             = "0"
+# NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
+  machine_taints         = [
+    { "key": "imagebuilderonly",
+    "value": "true",
+    "effect": "PREFER_NO_SCHEDULE"}
+  ]
 }
 
 ## Extra resources
