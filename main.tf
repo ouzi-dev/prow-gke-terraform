@@ -78,8 +78,8 @@ module "image-build-workers" {
   ]
   gke_node_scopes        = var.gke_node_scopes
   machine_type           = var.imagebuilder_machine_type
-  machine_disk_size      = var.imagebuilder_machine_disk_type
-  machine_disk_type      = var.imagebuilder_machine_disk_size
+  machine_disk_size      = var.imagebuilder_machine_disk_size
+  machine_disk_type      = var.imagebuilder_machine_disk_type
   machine_is_preemptible = var.imagebuilder_machine_is_preemptible
   min_nodes              = var.imagebuilder_min_nodes
   max_nodes              = var.imagebuilder_max_nodes
