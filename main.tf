@@ -28,7 +28,7 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.1"
+  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.2"
   #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
@@ -64,13 +64,17 @@ module "gke-cluster" {
   init_nodes                          = var.gke_init_nodes
 }
 
+locals {
+  imagebuilder_worker_group_name = "image-builder"
+}
+
 module "image-build-workers" {
-  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.1"
+  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.2"
   #source  = "../gke-terraform/modules/gke-workers"
   region  = var.gcloud_region
 
   gke_cluster_name       = var.gke_name
-  group_name             = "image-builder"
+  group_name             = local.imagebuilder_worker_group_name
   zones = [
     data.google_compute_zones.available.names[0],
     data.google_compute_zones.available.names[1],
@@ -90,6 +94,7 @@ module "image-build-workers" {
     "value": "true",
     "effect": "PREFER_NO_SCHEDULE"}
   ]
+  machine_labels = {"group_name":local.imagebuilder_worker_group_name}
 }
 
 ## Extra resources
