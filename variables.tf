@@ -92,6 +92,37 @@ variable "gke_max_nodes" {
   default     = 4
 }
 
+variable "imagebuilder_machine_type" {
+  description = "Instance type for the image builder pool of workers"
+  default     = "n2-standard-4"
+}
+
+variable "imagebuilder_machine_disk_type" {
+  description = "Disk size for the image builder pool of workers"
+  default     = "pd-ssd"
+}
+
+variable "imagebuilder_machine_disk_size" {
+  description = "Disk size for the image builder pool of workers"
+  default     = 100
+}
+
+variable "imagebuilder_machine_is_preemptible" {
+  description = "If true use preemptible instances"
+  default     = true
+}
+
+
+variable "imagebuilder_min_nodes" {
+  description = "Min number of workers"
+  default     = 0
+}
+
+variable "imagebuilder_max_nodes" {
+  description = "Max number of workers"
+  default     = 4
+}
+
 variable "gke_daily_maintenance" {
   default = "02:00"
 }

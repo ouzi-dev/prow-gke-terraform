@@ -11,7 +11,7 @@ fmt:
 
 .PHONY: init
 init:
-	@terraform init -backend-config=backend.tfvars  -backend-config=credentials=$(GOOGLE_APPLICATION_CREDENTIALS_PATH) 
+	@terraform init
 
 .PHONY: validate
 validate:
