@@ -170,13 +170,13 @@ resource "aws_iam_user" "prow_terraform" {
 
 ### AWS Service Account access key
 resource "aws_iam_access_key" "prow_terraform" {
-  user = "${aws_iam_user.prow_terraform.name}"
+  user = aws_iam_user.prow_terraform.name
 }
 
 ### AWS Service Account IAM policy
 resource "aws_iam_user_policy" "prow_terraform" {
   name = "tf_aws_service_account_${local.infra_id}"
-  user = "${aws_iam_user.prow_terraform.name}"
+  user = aws_iam_user.prow_terraform.name
 
   policy = <<EOF
 {
