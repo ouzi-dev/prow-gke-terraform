@@ -162,35 +162,41 @@ resource "google_service_account_key" "prow_terraform" {
   service_account_id = google_service_account.prow_terraform.name
 }
 
-### AWS Service Account for terraform 
-resource "aws_iam_user" "prow_terraform" {
-  name = "tf_aws_service_account_${local.infra_id}"
-  tags = local.tags
-}
+# Removing the AWS user management - this is not directly related to this module 
+# and it cleaner without it
+#
+# ### AWS Service Account for terraform 
+# resource "aws_iam_user" "prow_terraform" {
+#   count = var.create_aws_terraform_user == true ? 1 : 0
+#   name = "tf_aws_service_account_${local.infra_id}"
+#   tags = local.tags
+# }
 
-### AWS Service Account access key
-resource "aws_iam_access_key" "prow_terraform" {
-  user = "${aws_iam_user.prow_terraform.name}"
-}
+# ### AWS Service Account access key
+# resource "aws_iam_access_key" "prow_terraform" {
+#   count = var.create_aws_terraform_user == true ? 1 : 0
+#   user = aws_iam_user.prow_terraform[count.index].name
+# }
 
-### AWS Service Account IAM policy
-resource "aws_iam_user_policy" "prow_terraform" {
-  name = "tf_aws_service_account_${local.infra_id}"
-  user = "${aws_iam_user.prow_terraform.name}"
+# ### AWS Service Account IAM policy
+# resource "aws_iam_user_policy" "prow_terraform" {
+#   count = var.create_aws_terraform_user == true ? 1 : 0
+#   name = "tf_aws_service_account_${local.infra_id}"
+#   user = aws_iam_user.prow_terraform[count.index].name
 
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "*",
-            "Resource": "*"
-        }
-    ]
-}
-EOF
-}
+#   policy = <<EOF
+# {
+#     "Version": "2012-10-17",
+#     "Statement": [
+#         {
+#             "Effect": "Allow",
+#             "Action": "*",
+#             "Resource": "*"
+#         }
+#     ]
+# }
+# EOF
+# }
 
 ### DNS Zone for the Base Domain we are using
 resource "google_dns_managed_zone" "cluster_zone" {
