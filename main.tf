@@ -164,19 +164,22 @@ resource "google_service_account_key" "prow_terraform" {
 
 ### AWS Service Account for terraform 
 resource "aws_iam_user" "prow_terraform" {
+  count = var.create_aws_terraform_user == true ? 1 : 0
   name = "tf_aws_service_account_${local.infra_id}"
   tags = local.tags
 }
 
 ### AWS Service Account access key
 resource "aws_iam_access_key" "prow_terraform" {
-  user = aws_iam_user.prow_terraform.name
+  count = var.create_aws_terraform_user == true ? 1 : 0
+  user = aws_iam_user.prow_terraform[count.index].name
 }
 
 ### AWS Service Account IAM policy
 resource "aws_iam_user_policy" "prow_terraform" {
+  count = var.create_aws_terraform_user == true ? 1 : 0
   name = "tf_aws_service_account_${local.infra_id}"
-  user = aws_iam_user.prow_terraform.name
+  user = aws_iam_user.prow_terraform[count.index].name
 
   policy = <<EOF
 {

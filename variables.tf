@@ -162,6 +162,10 @@ variable "base_domain" {
   type = string
 }
 
+variable "create_aws_terraform_user" {
+  type = bool
+}
+
 variable "google_apis"{
   type = set(string)
   default = [

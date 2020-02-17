@@ -17,12 +17,12 @@ output "prow_terraform_gcloud_svc_account_key" {
 }
 
 output "prow_terraform_aws_svc_account_access_key_id" {
-  value     = aws_iam_access_key.prow_terraform.id
+  value     = aws_iam_access_key.prow_terraform[*].id
   sensitive = true
 }
 
 output "prow_terraform_aws_svc_account_secret_access_key" {
-  value     = aws_iam_access_key.prow_terraform.secret
+  value     = aws_iam_access_key.prow_terraform[*].secret
   sensitive = true
 }
 
