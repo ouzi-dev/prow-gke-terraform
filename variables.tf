@@ -43,7 +43,7 @@ variable "gke_node_scopes" {
     "https://www.googleapis.com/auth/devstorage.read_write",
     "https://www.googleapis.com/auth/logging.write",
     "https://www.googleapis.com/auth/monitoring",
-    "https://www.googleapis.com/auth/ndev.clouddns.readwrite"    
+    "https://www.googleapis.com/auth/ndev.clouddns.readwrite"
   ]
 }
 
@@ -162,12 +162,12 @@ variable "base_domain" {
   type = string
 }
 
-variable "google_apis"{
+variable "google_apis" {
   type = set(string)
   default = [
-    "iam.googleapis.com", 
-    "cloudresourcemanager.googleapis.com", 
-    "container.googleapis.com", 
+    "iam.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "container.googleapis.com",
     "compute.googleapis.com",
     "iamcredentials.googleapis.com",
     "storage-api.googleapis.com",
@@ -180,4 +180,12 @@ variable "google_apis"{
     "serviceusage.googleapis.com",
     "dns.googleapis.com"
   ]
+}
+
+variable "logging_service" {
+  default = "logging.googleapis.com/kubernetes"
+}
+
+variable "monitoring_service" {
+  default = "monitoring.googleapis.com/kubernetes"
 }
