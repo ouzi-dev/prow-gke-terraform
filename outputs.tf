@@ -1,7 +1,7 @@
 # GKE outputs
 
 output "cluster_ca_certificate" {
-  value = module.gke-cluster.cluster_ca_certificate
+  value     = module.gke-cluster.cluster_ca_certificate
   sensitive = true
 }
 

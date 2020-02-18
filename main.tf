@@ -21,15 +21,15 @@ locals {
 resource "google_project_service" "project" {
   for_each = var.google_apis
 
-  project = var.gcloud_project
-  service = each.value
+  project                    = var.gcloud_project
+  service                    = each.value
   disable_dependent_services = false
 }
 
 ## Modules
 module "gke-cluster" {
-  source  = "github.com/ouzi-dev/gke-terraform.git?ref=v0.5.2"
-  #source  = "../gke-terraform"
+  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.6.0"
+  # source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
 
@@ -62,6 +62,9 @@ module "gke-cluster" {
   enable_calico                       = var.gke_enable_calico
   authenticator_groups_security_group = var.gke_authenticator_groups_security_group
   init_nodes                          = var.gke_init_nodes
+
+  logging_service    = var.logging_service
+  monitoring_service = var.monitoring_service
 }
 
 locals {
@@ -69,12 +72,12 @@ locals {
 }
 
 module "image-build-workers" {
-  source  = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.2"
+  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.2"
   #source  = "../gke-terraform/modules/gke-workers"
-  region  = var.gcloud_region
+  region = var.gcloud_region
 
-  gke_cluster_name       = var.gke_name
-  group_name             = local.imagebuilder_worker_group_name
+  gke_cluster_name = var.gke_name
+  group_name       = local.imagebuilder_worker_group_name
   zones = [
     data.google_compute_zones.available.names[0],
     data.google_compute_zones.available.names[1],
@@ -88,13 +91,13 @@ module "image-build-workers" {
   min_nodes              = var.imagebuilder_min_nodes
   max_nodes              = var.imagebuilder_max_nodes
   init_nodes             = "0"
-# NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
-  machine_taints         = [
-    { "key": "imagebuilderonly",
-    "value": "true",
-    "effect": "PREFER_NO_SCHEDULE"}
+  # NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
+  machine_taints = [
+    { "key" : "imagebuilderonly",
+      "value" : "true",
+    "effect" : "PREFER_NO_SCHEDULE" }
   ]
-  machine_labels = {"group_name":local.imagebuilder_worker_group_name}
+  machine_labels = { "group_name" : local.imagebuilder_worker_group_name }
 }
 
 ## Extra resources
