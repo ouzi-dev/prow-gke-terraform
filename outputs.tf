@@ -35,3 +35,9 @@ output "certmanager_svc_account_key" {
   value     = google_service_account_key.certmanager_dns_editor_key.private_key
   sensitive = true
 }
+
+## Cert-Manager outputs
+output "preemptible_killer_key_svc_account_key" {
+  value     = google_service_account_key.preemptible_killer.private_key
+  sensitive = true
+}

@@ -148,6 +148,24 @@ resource "google_service_account_key" "certmanager_dns_editor_key" {
   service_account_id = google_service_account.certmanager_dns_editor.name
 }
 
+### Service Account for the Preemptible node killer
+# https://github.com/estafette/estafette-gke-preemptible-killer
+resource "google_service_account" "preemptible_killer" {
+  account_id   = "preemptible-killer"
+  display_name = "Service Account for the Preemptible Killer to zap pre emptible nodes before Google takes them away"
+}
+
+### Set IAM for preemptible-killer to zap nodes
+resource "google_project_iam_member" "preemptible_killer" {
+  role   = "compute.instances.delete"
+  member = "serviceAccount:${google_service_account.preemptible_killer.email}"
+}
+
+### Key for the Preemptible killer Service Account
+resource "google_service_account_key" "preemptible_killer" {
+  service_account_id = google_service_account.certmanager_dns_editor.name
+}
+
 ### Service Account for Terraform
 resource "google_service_account" "prow_terraform" {
   account_id   = "prow-tf"
