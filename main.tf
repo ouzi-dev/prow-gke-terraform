@@ -163,7 +163,7 @@ resource "google_project_iam_member" "preemptible_killer" {
 
 ### Key for the Preemptible killer Service Account
 resource "google_service_account_key" "preemptible_killer" {
-  service_account_id = google_service_account.certmanager_dns_editor.name
+  service_account_id = google_service_account.preemptible_killer.name
 }
 
 ### Service Account for Terraform
