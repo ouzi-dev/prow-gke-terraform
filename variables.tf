@@ -64,11 +64,6 @@ variable "gke_kubernetes_version" {
 
 variable "gke_machine_type" {
   description = "Instance type for the primary pool of workers"
-  default     = "n2-standard-2"
-}
-
-variable "gke_big_machine_type" {
-  description = "Instance type for the beefier pool of workers"
   default     = "n2-standard-4"
 }
 
