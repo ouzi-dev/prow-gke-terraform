@@ -28,8 +28,8 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.6.0"
-  # source  = "../gke-terraform"
+  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.6.1"
+  #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
 
@@ -48,7 +48,6 @@ module "gke-cluster" {
   kubernetes_version = var.gke_kubernetes_version
 
   machine_type           = var.gke_machine_type
-  big_machine_type       = var.gke_big_machine_type
   machine_disk_size      = var.gke_machine_disk_size
   machine_is_preemptible = var.gke_machine_is_preemptible
   min_nodes              = var.gke_min_nodes
@@ -72,7 +71,7 @@ locals {
 }
 
 module "image-build-workers" {
-  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.5.2"
+  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.6.1"
   #source  = "../gke-terraform/modules/gke-workers"
   region = var.gcloud_region
 
@@ -156,9 +155,19 @@ resource "google_service_account" "preemptible_killer" {
 }
 
 ### Set IAM for preemptible-killer to zap nodes
-resource "google_project_iam_member" "preemptible_killer" {
-  role   = "compute.instances.delete"
-  member = "serviceAccount:${google_service_account.preemptible_killer.email}"
+resource "google_project_iam_binding" "preemptible_killer_compute_admin" {
+  role = "roles/compute.admin"
+  members = [
+    "serviceAccount:${google_service_account.preemptible_killer.email}",
+  ]
+}
+
+### Set IAM for preemptible-killer to zap nodes
+resource "google_project_iam_binding" "preemptible_killer_container_admin" {
+  role = "roles/container.admin"
+  members = [
+    "serviceAccount:${google_service_account.preemptible_killer.email}",
+  ]
 }
 
 ### Key for the Preemptible killer Service Account
