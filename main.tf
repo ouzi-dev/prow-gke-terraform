@@ -155,21 +155,16 @@ resource "google_service_account" "preemptible_killer" {
 }
 
 ### Set IAM for preemptible-killer to zap nodes
-resource "google_project_iam_binding" "preemptible_killer_compute_admin" {
-  role = "roles/compute.admin"
-  members = [
-    "serviceAccount:${google_service_account.preemptible_killer.email}",
-  ]
+resource "google_project_iam_member" "preemptible_killer_compute_admin" {
+  role   = "roles/compute.admin"
+  member = "serviceAccount:${google_service_account.preemptible_killer.email}"
 }
 
 ### Set IAM for preemptible-killer to zap nodes
-resource "google_project_iam_binding" "preemptible_killer_container_admin" {
-  role = "roles/container.admin"
-  members = [
-    "serviceAccount:${google_service_account.preemptible_killer.email}",
-  ]
+resource "google_project_iam_member" "preemptible_killer_container_admin" {
+  role   = "roles/container.admin"
+  member = "serviceAccount:${google_service_account.preemptible_killer.email}"
 }
-
 ### Key for the Preemptible killer Service Account
 resource "google_service_account_key" "preemptible_killer" {
   service_account_id = google_service_account.preemptible_killer.name
