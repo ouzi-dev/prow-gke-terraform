@@ -87,6 +87,14 @@ variable "gke_max_nodes" {
   default     = 4
 }
 
+variable "max_surge" {
+  default = 1
+}
+
+variable "max_unavailable" {
+  default = 0
+}
+
 variable "imagebuilder_machine_type" {
   description = "Instance type for the image builder pool of workers"
   default     = "n2-standard-4"

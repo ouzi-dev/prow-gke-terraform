@@ -28,7 +28,7 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.6.1"
+  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.8.0"
   #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
@@ -52,6 +52,8 @@ module "gke-cluster" {
   machine_is_preemptible = var.gke_machine_is_preemptible
   min_nodes              = var.gke_min_nodes
   max_nodes              = var.gke_max_nodes
+  max_surge              = var.max_surge
+  max_unavailable        = var.max_unavailable
 
   daily_maintenance                   = var.gke_daily_maintenance
   disable_hpa                         = var.gke_disable_hpa
@@ -71,7 +73,7 @@ locals {
 }
 
 module "image-build-workers" {
-  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.6.1"
+  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.8.0"
   #source  = "../gke-terraform/modules/gke-workers"
   region = var.gcloud_region
 
@@ -89,7 +91,10 @@ module "image-build-workers" {
   machine_is_preemptible = var.imagebuilder_machine_is_preemptible
   min_nodes              = var.imagebuilder_min_nodes
   max_nodes              = var.imagebuilder_max_nodes
+  max_surge              = var.max_surge
+  max_unavailable        = var.max_unavailable
   init_nodes             = "0"
+
   # NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
   machine_taints = [
     { "key" : "imagebuilderonly",
