@@ -34,11 +34,8 @@ module "gke-cluster" {
   project = var.gcloud_project
 
   cluster_name = var.gke_name
-  zones = [
-    data.google_compute_zones.available.names[0],
-    data.google_compute_zones.available.names[1],
-    data.google_compute_zones.available.names[2]
-  ]
+  zones = slice(data.google_compute_zones.available.names, 0, var.gke_num_of_zones)
+
   node_cidr_range    = var.gke_node_cidr_range
   pod_cidr_range     = var.gke_pod_cidr_range
   service_cidr_range = var.gke_service_cidr_range
@@ -79,11 +76,8 @@ module "image-build-workers" {
 
   gke_cluster_name = var.gke_name
   group_name       = local.imagebuilder_worker_group_name
-  zones = [
-    data.google_compute_zones.available.names[0],
-    data.google_compute_zones.available.names[1],
-    data.google_compute_zones.available.names[2]
-  ]
+  zones = slice(data.google_compute_zones.available.names, 0, var.gke_num_of_zones)
+
   gke_node_scopes        = var.gke_node_scopes
   machine_type           = var.imagebuilder_machine_type
   machine_disk_size      = var.imagebuilder_machine_disk_size
