@@ -87,6 +87,11 @@ variable "gke_max_nodes" {
   default     = 4
 }
 
+variable "gke_num_of_zones" {
+  description = "Number of zones for the cluster."
+  default = 3
+}
+
 variable "max_surge" {
   default = 1
 }
@@ -114,7 +119,6 @@ variable "imagebuilder_machine_is_preemptible" {
   description = "If true use preemptible instances"
   default     = true
 }
-
 
 variable "imagebuilder_min_nodes" {
   description = "Min number of workers"
