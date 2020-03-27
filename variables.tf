@@ -89,7 +89,7 @@ variable "gke_max_nodes" {
 
 variable "gke_num_of_zones" {
   description = "Number of zones for the cluster."
-  default = 3
+  default     = 3
 }
 
 variable "max_surge" {
@@ -195,4 +195,35 @@ variable "logging_service" {
 
 variable "monitoring_service" {
   default = "monitoring.googleapis.com/kubernetes"
+}
+
+# https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-provisioning
+variable "cluster_autoscaling" {
+  default = true
+}
+
+# OPTIMIZE_UTILIZATION or BALANCED
+variable "cluster_autoscaling_profile" {
+  type    = string
+  default = "OPTIMIZE_UTILIZATION"
+}
+
+variable "cluster_autoscaling_min_cpu" {
+  type    = number
+  default = 4
+}
+
+variable "cluster_autoscaling_max_cpu" {
+  type    = number
+  default = 16
+}
+
+variable "cluster_autoscaling_min_memory" {
+  type    = number
+  default = 14
+}
+
+variable "cluster_autoscaling_max_memory" {
+  type    = number
+  default = 56
 }
