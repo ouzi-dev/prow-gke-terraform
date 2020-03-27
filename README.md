@@ -10,8 +10,8 @@ This is a terraform module for creating a prow k8s cluster running in GKE.
 - Runs on private nodes 
 - Managed Control Plane and Nodes by GKE
 - Automatic control plane upgrades
-- Automatic node updades
-- Cluster scales up and down as needed, min 1
+- Automatic node upgrades
+- Automatic provisioning and auto scaling of node groups
 - Two different node pools such that the cluster can scale according to the workload provided
 - Setup GSuite integration with RBAC
 

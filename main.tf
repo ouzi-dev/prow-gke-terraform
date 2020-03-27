@@ -28,13 +28,13 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.8.0"
+  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.9.0"
   #source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
 
   cluster_name = var.gke_name
-  zones = slice(data.google_compute_zones.available.names, 0, var.gke_num_of_zones)
+  zones        = slice(data.google_compute_zones.available.names, 0, var.gke_num_of_zones)
 
   node_cidr_range    = var.gke_node_cidr_range
   pod_cidr_range     = var.gke_pod_cidr_range
@@ -43,6 +43,12 @@ module "gke-cluster" {
   gke_node_scopes    = var.gke_node_scopes
   auth_cidr_blocks   = var.gke_auth_cidr_blocks
   kubernetes_version = var.gke_kubernetes_version
+
+  cluster_autoscaling            = var.cluster_autoscaling
+  cluster_autoscaling_min_cpu    = var.cluster_autoscaling_min_cpu
+  cluster_autoscaling_max_cpu    = var.cluster_autoscaling_max_cpu
+  cluster_autoscaling_min_memory = var.cluster_autoscaling_min_memory
+  cluster_autoscaling_max_memory = var.cluster_autoscaling_max_memory
 
   machine_type           = var.gke_machine_type
   machine_disk_size      = var.gke_machine_disk_size
@@ -63,39 +69,6 @@ module "gke-cluster" {
 
   logging_service    = var.logging_service
   monitoring_service = var.monitoring_service
-}
-
-locals {
-  imagebuilder_worker_group_name = "image-builder"
-}
-
-module "image-build-workers" {
-  source = "github.com/ouzi-dev/gke-terraform.git//modules/gke-workers?ref=v0.8.0"
-  #source  = "../gke-terraform/modules/gke-workers"
-  region = var.gcloud_region
-
-  gke_cluster_name = var.gke_name
-  group_name       = local.imagebuilder_worker_group_name
-  zones = slice(data.google_compute_zones.available.names, 0, var.gke_num_of_zones)
-
-  gke_node_scopes        = var.gke_node_scopes
-  machine_type           = var.imagebuilder_machine_type
-  machine_disk_size      = var.imagebuilder_machine_disk_size
-  machine_disk_type      = var.imagebuilder_machine_disk_type
-  machine_is_preemptible = var.imagebuilder_machine_is_preemptible
-  min_nodes              = var.imagebuilder_min_nodes
-  max_nodes              = var.imagebuilder_max_nodes
-  max_surge              = var.max_surge
-  max_unavailable        = var.max_unavailable
-  init_nodes             = "0"
-
-  # NO_SCHEDULE, PREFER_NO_SCHEDULE, and NO_EXECUTE.
-  machine_taints = [
-    { "key" : "imagebuilderonly",
-      "value" : "true",
-    "effect" : "PREFER_NO_SCHEDULE" }
-  ]
-  machine_labels = { "group_name" : local.imagebuilder_worker_group_name }
 }
 
 ## Extra resources
