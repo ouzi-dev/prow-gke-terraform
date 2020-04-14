@@ -56,7 +56,9 @@
       ]
     ],
     "preset": "angular",
-    "branch": "master",
+    "branches": [
+      "master"
+    ],
     "tagFormat": "v${version}",
     "ci": false
   },
