@@ -210,7 +210,7 @@ variable "cluster_autoscaling_profile" {
 
 variable "cluster_autoscaling_min_cpu" {
   type    = number
-  default = 4
+  default = 0
 }
 
 variable "cluster_autoscaling_max_cpu" {
@@ -220,7 +220,7 @@ variable "cluster_autoscaling_max_cpu" {
 
 variable "cluster_autoscaling_min_memory" {
   type    = number
-  default = 14
+  default = 0
 }
 
 variable "cluster_autoscaling_max_memory" {
