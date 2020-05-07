@@ -28,8 +28,8 @@ resource "google_project_service" "project" {
 
 ## Modules
 module "gke-cluster" {
-  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.9.2"
-  #source  = "../gke-terraform"
+  source = "github.com/ouzi-dev/gke-terraform.git?ref=v0.9.3"
+  # source  = "../gke-terraform"
   region  = var.gcloud_region
   project = var.gcloud_project
 

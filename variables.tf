@@ -199,7 +199,7 @@ variable "monitoring_service" {
 
 # https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-provisioning
 variable "cluster_autoscaling" {
-  default = true
+  default = false
 }
 
 # OPTIMIZE_UTILIZATION or BALANCED
